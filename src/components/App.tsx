@@ -1,34 +1,33 @@
 import React from 'react';
-import { Howl } from 'howler';
+import { Layout } from './Layout';
+import { ReactComponent as Play } from '../icons/play.svg';
+// import { Howl } from 'howler';
 
-interface BirdsFiles {
+export interface BirdsFiles {
   [key: string]: string;
 }
 
-export const App: React.FC = () => {
-  const [birds, setBirds] = React.useState<null | BirdsFiles>(null);
+interface Props {
+  birds: BirdsFiles;
+}
 
-  React.useEffect(() => {
-    fetch('/birds.json')
-      .then(res => res.json())
-      .then(data => {
-        setBirds(data);
-      });
-  }, []);
+export const App: React.FC<Props> = ({ birds }) => {
+  const [selected, setSelected] = React.useState<Array<string>>(() => Object.keys(birds));
+  const [queue, setQueue] = React.useState<Array<string>>([]);
 
-  if (birds === null) {
-    return null;
-  }
-
-  console.log(birds);
-
-  return <div>Hello React</div>;
+  return (
+    <Layout title="Chandwazo">
+      <button className="btn btn--play" onClick={() => {}}>
+        <Play />
+      </button>
+    </Layout>
+  );
 };
 
-const sound = new Howl({
-  src: ['http://birds.etiennedeladonchamps.fr/01_01.webm']
-});
+// const sound = new Howl({
+//   src: ['http://birds.etiennedeladonchamps.fr/01_01.webm']
+// });
 
-console.log(sound);
+// console.log(sound);
 
-sound.play();
+// sound.play();
