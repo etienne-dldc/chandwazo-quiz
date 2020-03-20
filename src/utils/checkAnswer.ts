@@ -8,7 +8,7 @@ const HANDLED_CHARS = /[0-9A-Za-zéèêàûüîïâ ')(.-]/g;
 
 const SKIPPED_WORDS = ['de', 'des', 'd', 'a', 'du', 'l', 's', 'et', '-'];
 const CONVERT_TO_SMALL_WORD = /([A-Za-z])(-)([A-Za-z])/g;
-const APOSTROPH_START = /^([A-Za-z]+)'/;
+const APOSTROPH_START = /^([A-Za-z]{1,2})'/;
 
 function toNormArray(str: string): Array<{ raw: string; norm: string }> {
   return str
