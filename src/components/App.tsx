@@ -13,7 +13,7 @@ interface Props {
 
 export const App: React.FC<Props> = ({ birds }) => {
   const [selected, setSelected] = React.useState<Array<string>>(() => Object.keys(birds));
-  const [queue, setQueue] = React.useState<Array<string>>([]);
+  const [queue, setQueue] = React.useState<Array<string>>(['02_14']);
 
   const playing = queue.length > 0 ? queue[0] : null;
 

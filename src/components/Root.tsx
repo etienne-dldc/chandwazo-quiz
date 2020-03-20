@@ -1,7 +1,7 @@
 import React from 'react';
 import { Layout } from './Layout';
 import { App, BirdsFiles } from './App';
-import { checkAnswer } from '../utils/checkAnswer';
+// import { checkAnswer } from '../utils/checkAnswer';
 
 export const Root: React.FC = () => {
   const [birds, setBirds] = React.useState<null | BirdsFiles>(null);
@@ -10,7 +10,7 @@ export const Root: React.FC = () => {
     fetch('/birds.json')
       .then(res => res.json())
       .then(data => {
-        Object.values<string>(data).forEach(name => checkAnswer(name, ''));
+        // Object.values<string>(data).forEach(name => checkAnswer(name, ''));
         setBirds(data);
       });
   }, []);
