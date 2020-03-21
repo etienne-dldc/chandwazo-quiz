@@ -29,13 +29,12 @@ export const Player: React.FC<Props> = ({ answer, songId }) => {
   }, [howl]);
 
   return (
-    <div>
+    <>
       <div className="answer">
-        <input value={input} placeholder="réponse" onChange={e => setInput(e.target.value)} />
-        <span className="answer--border" />
+        <input value={input} placeholder="votre réponse" onChange={e => setInput(e.target.value)} />
       </div>
       <p>{answer}</p>
       <p>{result.map(v => (v === null ? '?' : v)).join(' ')}</p>
-    </div>
+    </>
   );
 };
