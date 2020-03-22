@@ -10,6 +10,7 @@ import { ReactComponent as Pause } from 'icons/pause.svg';
 import { ReactComponent as Search } from 'icons/search.svg';
 import { ReactComponent as XCircle } from 'icons/x-circle.svg';
 import { ReactComponent as ChevronLeft } from 'icons/chevron-left.svg';
+import { ReactComponent as Loader } from 'icons/loader.svg';
 import { ReactComponent as Zap } from 'icons/zap.svg';
 import { BirdsList } from 'store/AppStore';
 
@@ -18,12 +19,13 @@ interface ItemProps {
   name: string;
   selected: Array<string>;
   playing: string | null;
+  playingIsLoading: boolean;
   toggleSongSelected: (id: string) => void;
   togglePlaying: (id: string) => void;
 }
 
 const Item = React.memo<ItemProps>(
-  ({ id, name, selected, toggleSongSelected, playing, togglePlaying }) => {
+  ({ id, name, selected, toggleSongSelected, playing, togglePlaying, playingIsLoading }) => {
     const isSelected = selected.includes(id);
     const isPlaying = playing === id;
     return (
@@ -36,7 +38,7 @@ const Item = React.memo<ItemProps>(
           className={'list--play' + (isPlaying ? ' playing' : '')}
           onClick={() => togglePlaying(id)}
         >
-          {isPlaying ? <Pause /> : <Play />}
+          {isPlaying ? playingIsLoading ? <Loader /> : <Pause /> : <Play />}
         </button>
       </div>
     );
@@ -51,6 +53,7 @@ export const List: React.FC = () => {
   const togglePlaying = useSelector(s => s.togglePlaying);
   const selectUnselectAll = useSelector(s => s.selectUnselectAll);
   const playing = useSelector(s => s.playing);
+  const playingIsLoading = useSelector(s => s.playingIsLoading);
   const [search, setSearch] = React.useState('');
   const listRef = React.useRef<HTMLDivElement | null>(null);
   const controlsRef = React.useRef<HTMLDivElement | null>(null);
@@ -159,6 +162,7 @@ export const List: React.FC = () => {
             selected={selected}
             togglePlaying={togglePlaying}
             toggleSongSelected={toggleSongSelected}
+            playingIsLoading={playingIsLoading}
           />
         ))}
       </div>

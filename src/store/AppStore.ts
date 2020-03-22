@@ -37,6 +37,9 @@ export const AppStore = () => {
   const [page, setPage] = useState<Page>('home');
   const [playing, setPlaying] = useState<string | null>(null);
   const playerRef = useRef<null | Player>(null);
+  const [loadedSong, setLoadedSong] = useState<{ [key: string]: boolean }>({});
+
+  const playingIsLoaded = playing === null ? false : loadedSong[playing] || false;
 
   const quiz = useChildren(createElement(QuizStore, { selectedSize: selected.length }));
 
@@ -69,7 +72,7 @@ export const AppStore = () => {
       if (playerRef.current.id === playing) {
         return;
       }
-      playerRef.current.howl.unload();
+      playerRef.current.howl.stop();
       playerRef.current = null;
     }
     if (playing === null) {
@@ -77,6 +80,23 @@ export const AppStore = () => {
     }
     const howl = new Howl({
       src: [`http://birds.etiennedeladonchamps.fr/${playing}.webm`]
+    });
+    setLoadedSong(prev => {
+      if (prev[playing] === undefined) {
+        return {
+          ...prev,
+          [playing]: false
+        };
+      }
+      return prev;
+    });
+    howl.once('play', () => {
+      setLoadedSong(prev => {
+        return {
+          ...prev,
+          [playing]: true
+        };
+      });
     });
     howl.play();
     howl.on('end', () => {
@@ -126,6 +146,7 @@ export const AppStore = () => {
     page,
     togglePlaying,
     playing,
+    playingIsLoading: !playingIsLoaded,
     toggleSongSelected,
     selectUnselectAll,
     quiz
