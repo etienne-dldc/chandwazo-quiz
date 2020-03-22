@@ -11,11 +11,12 @@ export const Home: React.FC = () => {
 
   return (
     <Layout>
-      <button className="home--nav-btn" onClick={() => {}}>
+      <button type="button" className="home--nav-btn" onClick={() => setPage('quiz')}>
         <Award />
         <span>Quiz</span>
       </button>
       <button
+        type="button"
         className="home--nav-btn"
         style={{
           backgroundImage: `linear-gradient(315deg, #9fa4c4 0%, #9e768f 74%)`
@@ -25,6 +26,7 @@ export const Home: React.FC = () => {
         <span>Entraînement</span>
       </button>
       <button
+        type="button"
         className="home--nav-btn"
         style={{
           backgroundImage: `linear-gradient(45deg, #2a2a72 0%, #009ffd 74%)`
@@ -35,6 +37,7 @@ export const Home: React.FC = () => {
         <span>Liste des chants</span>
       </button>
       <button
+        type="button"
         className="home--nav-btn"
         style={{
           backgroundImage: `linear-gradient(45deg, rgb(155, 151, 197) 0%, rgb(38, 211, 255) 74%)`

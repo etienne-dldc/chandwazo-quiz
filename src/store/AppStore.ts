@@ -1,7 +1,8 @@
-import { useState, useEffect, useCallback, useRef } from 'democrat';
-import { useShallowMemo } from '../hooks/useShallowMemo';
+import { useState, useEffect, useCallback, useRef, useChildren, createElement } from 'democrat';
+import { useShallowMemo } from 'hooks/useShallowMemo';
 import { Howl } from 'howler';
 import store from 'store2';
+import { QuizStore } from './QuizStore';
 
 const SELECTED_STORAGE_KEY = 'chandwazo_selected-v1';
 
@@ -16,7 +17,7 @@ export interface BirdsListItem {
 
 export type BirdsList = Array<BirdsListItem>;
 
-export type Page = 'home' | 'list';
+export type Page = 'home' | 'list' | 'quiz';
 
 interface Player {
   id: string;
@@ -36,6 +37,8 @@ export const AppStore = () => {
   const [page, setPage] = useState<Page>('home');
   const [playing, setPlaying] = useState<string | null>(null);
   const playerRef = useRef<null | Player>(null);
+
+  const quiz = useChildren(createElement(QuizStore, { selectedSize: selected.length }));
 
   useEffect(() => {
     store.set(SELECTED_STORAGE_KEY, selected);
@@ -58,7 +61,6 @@ export const AppStore = () => {
         if (HAS_SELECTED_STORE === false) {
           setSelected(list.map(v => v.id));
         }
-        setPage('list');
       });
   }, []);
 
@@ -125,6 +127,7 @@ export const AppStore = () => {
     togglePlaying,
     playing,
     toggleSongSelected,
-    selectUnselectAll
+    selectUnselectAll,
+    quiz
   });
 };
