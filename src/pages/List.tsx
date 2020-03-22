@@ -58,6 +58,7 @@ export const List: React.FC = () => {
   const listRef = React.useRef<HTMLDivElement | null>(null);
   const controlsRef = React.useRef<HTMLDivElement | null>(null);
   const [controlHeight, setControlHeight] = React.useState(100);
+  const inputRef = React.useRef<HTMLInputElement | null>(null);
 
   React.useEffect(() => {
     if (controlsRef.current) {
@@ -129,7 +130,16 @@ export const List: React.FC = () => {
         <div className="list--filter">
           <Search className="list--search-icon" />
           {search.length > 0 && (
-            <button type="button" className="list--clear-icon" onClick={() => setSearch('')}>
+            <button
+              type="button"
+              className="list--clear-icon"
+              onClick={() => {
+                setSearch('');
+                if (inputRef.current) {
+                  inputRef.current.focus();
+                }
+              }}
+            >
               <XCircle />
             </button>
           )}
@@ -137,6 +147,7 @@ export const List: React.FC = () => {
             value={search}
             onChange={e => setSearch(e.target.value)}
             placeholder="rechercher"
+            ref={inputRef}
           />
         </div>
         <button

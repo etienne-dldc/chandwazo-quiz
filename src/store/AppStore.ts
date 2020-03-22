@@ -41,7 +41,15 @@ export const AppStore = () => {
 
   const playingIsLoaded = playing === null ? false : loadedSong[playing] || false;
 
-  const quiz = useChildren(createElement(QuizStore, { selectedSize: selected.length }));
+  const quiz = useChildren(createElement(QuizStore, { selected, birds }));
+
+  const quizPlaying = quiz.playing;
+
+  useEffect(() => {
+    if (quizPlaying !== null) {
+      setPlaying(quizPlaying);
+    }
+  }, [quizPlaying]);
 
   useEffect(() => {
     store.set(SELECTED_STORAGE_KEY, selected);

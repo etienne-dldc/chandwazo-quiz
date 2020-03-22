@@ -11,7 +11,14 @@ export const Home: React.FC = () => {
 
   return (
     <Layout>
-      <button type="button" className="home--nav-btn" onClick={() => setPage('quiz')}>
+      <button
+        type="button"
+        className="home--nav-btn"
+        style={{
+          backgroundImage: `linear-gradient(315deg, #f7b42c 0%, #fc575e 74%)`
+        }}
+        onClick={() => setPage('quiz')}
+      >
         <Award />
         <span>Quiz</span>
       </button>
