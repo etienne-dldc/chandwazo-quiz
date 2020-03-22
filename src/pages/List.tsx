@@ -1,6 +1,6 @@
 import React from 'react';
 import Fuze from 'fuse.js';
-import { Layout } from '../Layout';
+import { Layout } from 'components/Layout';
 import { useSelector } from 'select';
 import { useSelectorOrThrow } from 'hooks/useSelectOrThrow';
 import { ReactComponent as CheckSquare } from 'icons/check-square.svg';

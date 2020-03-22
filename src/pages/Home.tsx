@@ -1,5 +1,5 @@
 import React from 'react';
-import { Layout } from '../Layout';
+import { Layout } from 'components/Layout';
 import { ReactComponent as Award } from 'icons/award.svg';
 import { ReactComponent as Coffee } from 'icons/coffee.svg';
 import { ReactComponent as Book } from 'icons/book.svg';
