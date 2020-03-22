@@ -1,6 +1,6 @@
 import React from 'react';
 import { Howl } from 'howler';
-import { checkAnswer } from '../utils/checkAnswer';
+import { checkAnswer } from 'utils/checkAnswer';
 
 interface Props {
   songId: string;

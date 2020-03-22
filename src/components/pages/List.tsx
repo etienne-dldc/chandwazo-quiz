@@ -1,17 +1,17 @@
 import React from 'react';
 import Fuze from 'fuse.js';
 import { Layout } from '../Layout';
-import { useSelector } from '../../select';
-import { useSelectorOrThrow } from '../../hooks/useSelectOrThrow';
-import { ReactComponent as CheckSquare } from '../../icons/check-square.svg';
-import { ReactComponent as Square } from '../../icons/square.svg';
-import { ReactComponent as Play } from '../../icons/play.svg';
-import { ReactComponent as Pause } from '../../icons/pause.svg';
-import { ReactComponent as Search } from '../../icons/search.svg';
-import { ReactComponent as XCircle } from '../../icons/x-circle.svg';
-import { ReactComponent as ChevronLeft } from '../../icons/chevron-left.svg';
-import { ReactComponent as Zap } from '../../icons/zap.svg';
-import { BirdsList } from '../../store/AppStore';
+import { useSelector } from 'select';
+import { useSelectorOrThrow } from 'hooks/useSelectOrThrow';
+import { ReactComponent as CheckSquare } from 'icons/check-square.svg';
+import { ReactComponent as Square } from 'icons/square.svg';
+import { ReactComponent as Play } from 'icons/play.svg';
+import { ReactComponent as Pause } from 'icons/pause.svg';
+import { ReactComponent as Search } from 'icons/search.svg';
+import { ReactComponent as XCircle } from 'icons/x-circle.svg';
+import { ReactComponent as ChevronLeft } from 'icons/chevron-left.svg';
+import { ReactComponent as Zap } from 'icons/zap.svg';
+import { BirdsList } from 'store/AppStore';
 
 interface ItemProps {
   id: string;

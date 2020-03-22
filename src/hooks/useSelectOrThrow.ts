@@ -1,5 +1,5 @@
-import { AppState } from '../store';
-import { useSelector } from '../select';
+import { AppState } from 'store';
+import { useSelector } from 'select';
 
 export function useSelectorOrThrow<R>(selector: (state: AppState) => R | null | undefined): R {
   return notNil(useSelector(selector));

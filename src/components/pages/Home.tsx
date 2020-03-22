@@ -1,10 +1,10 @@
 import React from 'react';
 import { Layout } from '../Layout';
-import { ReactComponent as Award } from '../../icons/award.svg';
-import { ReactComponent as Coffee } from '../../icons/coffee.svg';
-import { ReactComponent as Book } from '../../icons/book.svg';
-import { ReactComponent as Settings } from '../../icons/settings.svg';
-import { useSelector } from '../../select';
+import { ReactComponent as Award } from 'icons/award.svg';
+import { ReactComponent as Coffee } from 'icons/coffee.svg';
+import { ReactComponent as Book } from 'icons/book.svg';
+import { ReactComponent as Settings } from 'icons/settings.svg';
+import { useSelector } from 'select';
 
 export const Home: React.FC = () => {
   const setPage = useSelector(s => s.setPage);

@@ -2,8 +2,8 @@ import React from 'react';
 import { Layout } from './Layout';
 import { Home } from './pages/Home';
 import { List } from './pages/List';
-import { useSelector } from '../select';
-import { Page } from '../store/AppStore';
+import { useSelector } from 'select';
+import { Page } from 'store/AppStore';
 
 const PAGES: { [K in Page]: React.ComponentType } = {
   home: Home,
