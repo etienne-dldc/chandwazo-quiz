@@ -46,11 +46,6 @@ export function checkAnswer(anwser: string, input: string): Array<string | null>
     .map(v => v.norm)
     .filter(w => SKIPPED_WORDS.includes(w) === false);
 
-  console.log({
-    anwserWords,
-    inputWords
-  });
-
   const result = anwserWords
     .map(word => {
       if (SKIPPED_WORDS.includes(word.norm)) {
@@ -70,28 +65,5 @@ export function checkAnswer(anwser: string, input: string): Array<string | null>
       const next = i < arr.length ? arr[i + 1] : null;
       return prev !== null || next !== null ? v.raw : null;
     });
-
-  // const rawWords = anwser.split(/[ ']/);
-  // // const inputWords = toNormArray(input);
-  // if (anwserWords.length !== rawWords.length) {
-  //   console.warn(anwserWords, rawWords);
-  // }
-  // const small = anwserWords
-  //   .filter(v => v.length <= 4)
-  //   .filter(w => SKIPPED_WORDS.includes(w) === false);
-  // if (small.length) {
-  //   console.log(small);
-  // }
-  // const result = rawWords.map(word => {
-  //   const match = anwserWords.some(maybe => {
-  //     const score = leven(word, maybe);
-  //     console.log(word, maybe, score);
-  //     return score <= 2;
-  //   });
-  //   return match ? word : null;
-  // }, []);
-
-  // console.log(result);
-
   return result;
 }

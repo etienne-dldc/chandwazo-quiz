@@ -39,17 +39,9 @@ export const AppStore = () => {
   const playerRef = useRef<null | Player>(null);
   const [loadedSong, setLoadedSong] = useState<{ [key: string]: boolean }>({});
 
-  const playingIsLoaded = playing === null ? false : loadedSong[playing] || false;
+  const playingIsLoading = playing === null ? false : loadedSong[playing] === true ? false : true;
 
-  const quiz = useChildren(createElement(QuizStore, { selected, birds }));
-
-  const quizPlaying = quiz.playing;
-
-  useEffect(() => {
-    if (quizPlaying !== null) {
-      setPlaying(quizPlaying);
-    }
-  }, [quizPlaying]);
+  const quiz = useChildren(createElement(QuizStore, { selected, birds, setPlaying }));
 
   useEffect(() => {
     store.set(SELECTED_STORAGE_KEY, selected);
@@ -154,7 +146,7 @@ export const AppStore = () => {
     page,
     togglePlaying,
     playing,
-    playingIsLoading: !playingIsLoaded,
+    playingIsLoading,
     toggleSongSelected,
     selectUnselectAll,
     quiz

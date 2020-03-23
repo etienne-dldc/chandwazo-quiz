@@ -28,7 +28,3 @@ export const App: React.FC = () => {
 
   return <Comp />;
 };
-
-// console.log(sound);
-
-// sound.play();

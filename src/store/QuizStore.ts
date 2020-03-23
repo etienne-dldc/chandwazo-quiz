@@ -6,13 +6,14 @@ import { BirdsList } from './AppStore';
 interface Props {
   selected: Array<string>;
   birds: BirdsList | null;
+  setPlaying: (id: string) => void;
 }
 
-export const QuizStore = ({ selected, birds }: Props) => {
+export const QuizStore = ({ selected, birds, setPlaying }: Props) => {
   const selectedSize = selected.length;
   const [size, setSize] = useState(() => Math.min(20, selectedSize));
   const [queue, setQueue] = useState<Array<string> | null>(null);
-  const [playing, setPlaying] = useState<string | null>(null);
+  const [current, setCurrent] = useState<string | null>(null);
 
   const incrementSize = useCallback(() => setSize(p => Math.min(p + 1, selectedSize)), [
     selectedSize
@@ -22,27 +23,22 @@ export const QuizStore = ({ selected, birds }: Props) => {
 
   const start = useCallback(() => {
     const shuffled = shuffleArray(selected);
-    console.log({
-      selected,
-      shuffled
-    });
-
     const queue = shuffled.slice(0, size);
-    console.log(queue);
     setQueue(queue);
+    setCurrent(queue[0]);
     setPlaying(queue[0]);
-  }, [selected, size]);
+  }, [selected, setPlaying, size]);
 
   const answer = useMemo(() => {
-    if (playing === null || birds === null) {
+    if (current === null || birds === null) {
       return null;
     }
-    const bird = birds.find(b => b.id === playing);
+    const bird = birds.find(b => b.id === current);
     if (!bird) {
       return null;
     }
     return bird.name;
-  }, [birds, playing]);
+  }, [birds, current]);
 
   return useShallowMemo({
     size,
@@ -51,7 +47,7 @@ export const QuizStore = ({ selected, birds }: Props) => {
     decrementSize,
     start,
     queue,
-    playing,
+    current,
     answer
   });
 };
