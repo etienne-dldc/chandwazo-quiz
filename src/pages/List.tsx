@@ -12,6 +12,7 @@ import { ReactComponent as XCircle } from 'icons/x-circle.svg';
 import { ReactComponent as ChevronLeft } from 'icons/chevron-left.svg';
 import { ReactComponent as Loader } from 'icons/loader.svg';
 import { ReactComponent as Zap } from 'icons/zap.svg';
+import { ReactComponent as Filter } from 'icons/filter.svg';
 import { BirdsList } from 'store/AppStore';
 
 interface ItemProps {
@@ -54,6 +55,7 @@ export const List: React.FC = () => {
   const selectUnselectAll = useSelector(s => s.selectUnselectAll);
   const playing = useSelector(s => s.playing);
   const playingIsLoading = useSelector(s => s.playingIsLoading);
+  const [selectedOnly, setSelectedOnly] = React.useState(false);
   const [search, setSearch] = React.useState('');
   const listRef = React.useRef<HTMLDivElement | null>(null);
   const controlsRef = React.useRef<HTMLDivElement | null>(null);
@@ -103,16 +105,23 @@ export const List: React.FC = () => {
     });
   });
 
-  const filtered: BirdsList = React.useMemo(() => {
+  const fused: BirdsList = React.useMemo(() => {
     if (search.length === 0) {
       return birds;
     }
     return fuse.search(search).map(v => (v as any).item);
   }, [birds, fuse, search]);
 
+  const filteredSelected: BirdsList = React.useMemo(() => {
+    if (selectedOnly === false) {
+      return fused;
+    }
+    return fused.filter(item => selected.includes(item.id));
+  }, [selectedOnly, fused, selected]);
+
   const allSelected = React.useMemo(() => {
-    return filtered.every(item => selected.includes(item.id));
-  }, [filtered, selected]);
+    return filteredSelected.every(item => selected.includes(item.id));
+  }, [filteredSelected, selected]);
 
   return (
     <Layout noTitle>
@@ -127,44 +136,52 @@ export const List: React.FC = () => {
           <ChevronLeft />
           <span>Retour</span>
         </button>
-        <div className="list--filter">
-          <Search className="list--search-icon" />
-          {search.length > 0 && (
-            <button
-              type="button"
-              className="list--clear-icon"
-              onClick={() => {
-                setSearch('');
-                if (inputRef.current) {
-                  inputRef.current.focus();
-                }
-              }}
-            >
-              <XCircle />
-            </button>
-          )}
-          <input
-            value={search}
-            onChange={e => setSearch(e.target.value)}
-            placeholder="rechercher"
-            ref={inputRef}
-          />
+        <div className="list--filters">
+          <div className="list--filter">
+            <Search className="list--search-icon" />
+            {search.length > 0 && (
+              <button
+                type="button"
+                className="list--clear-icon"
+                onClick={() => {
+                  setSearch('');
+                  if (inputRef.current) {
+                    inputRef.current.focus();
+                  }
+                }}
+              >
+                <XCircle />
+              </button>
+            )}
+            <input
+              value={search}
+              onChange={e => setSearch(e.target.value)}
+              placeholder="rechercher"
+              ref={inputRef}
+            />
+          </div>
+          <button
+            className={'list--selected-only' + (selectedOnly ? ' active' : '')}
+            onClick={() => setSelectedOnly(p => !p)}
+          >
+            <Filter />
+          </button>
         </div>
         <button
           type="button"
           className="list--select-all"
           onClick={() => {
-            selectUnselectAll(filtered.map(v => v.id));
+            selectUnselectAll(filteredSelected.map(v => v.id));
           }}
         >
           <Zap />
           <span>
-            {allSelected ? 'Unselect' : 'Select'} All ({filtered.length})
+            {allSelected ? 'Unselect' : 'Select'} All ({filteredSelected.length})
           </span>
         </button>
       </div>
       <div ref={listRef} className="list--list" style={{ paddingTop: controlHeight }}>
-        {filtered.map(item => (
+        {filteredSelected.map(item => (
           <Item
             key={item.id}
             id={item.id}

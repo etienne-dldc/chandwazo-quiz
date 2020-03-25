@@ -4,7 +4,7 @@ const REPLACE_LETTERS = 'éèêàûüîïâ'.split('');
 const BY_LETTERS = 'eeeauuiia'.split('');
 
 const WORD_SPLIT = /[ ]/;
-const HANDLED_CHARS = /[0-9A-Za-zéèêàûüîïâ ')(.-]/g;
+const HANDLED_CHARS = /[0-9A-Za-zéèêàûüùîïâ '`",)(.-]/g;
 
 const SKIPPED_WORDS = ['de', 'des', 'd', 'a', 'du', 'l', 's', 'et', '-'];
 const CONVERT_TO_SMALL_WORD = /([A-Za-z])(-)([A-Za-z])/g;
@@ -39,12 +39,16 @@ function toNormArray(str: string): Array<{ raw: string; norm: string }> {
     });
 }
 
+export function extractMainWords(input: string): Array<string> {
+  return toNormArray(input)
+    .map(v => v.norm)
+    .filter(w => SKIPPED_WORDS.includes(w) === false);
+}
+
 // return an array of response found (string) or null
 export function checkAnswer(anwser: string, input: string): Array<string | null> {
   const anwserWords = toNormArray(anwser);
-  const inputWords = toNormArray(input)
-    .map(v => v.norm)
-    .filter(w => SKIPPED_WORDS.includes(w) === false);
+  const inputWords = extractMainWords(input);
 
   const result = anwserWords
     .map(word => {

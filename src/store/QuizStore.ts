@@ -1,33 +1,44 @@
 import { useShallowMemo } from 'hooks/useShallowMemo';
-import { useState, useCallback, useMemo } from 'democrat';
+import { useState, useCallback, useMemo, useEffect, useLayoutEffect } from 'democrat';
 import { shuffleArray } from 'utils/shuffleArray';
 import { BirdsList } from './AppStore';
+import store from 'store2';
+
+const SELECTED_SIZE_STORAGE_KEY = 'chandwazo_selected_size-v1';
+const HAS_SELECTED_SIZE_STORAGE = store.has(SELECTED_SIZE_STORAGE_KEY);
 
 interface Props {
   selected: Array<string>;
   birds: BirdsList | null;
-  setPlaying: (id: string) => void;
+  setPlaying: (id: string | null) => void;
 }
 
 export const QuizStore = ({ selected, birds, setPlaying }: Props) => {
   const selectedSize = selected.length;
-  const [size, setSize] = useState(() => Math.min(20, selectedSize));
+  const [size, setSize] = useState<number>(() => {
+    const value: number = HAS_SELECTED_SIZE_STORAGE ? store.get(SELECTED_SIZE_STORAGE_KEY) : 20;
+    return Math.min(value, selectedSize);
+  });
   const [queue, setQueue] = useState<Array<string> | null>(null);
-  const [current, setCurrent] = useState<string | null>(null);
+  const [currentIndex, setCurrentIndex] = useState<number | null>(null);
 
-  const incrementSize = useCallback(() => setSize(p => Math.min(p + 1, selectedSize)), [
-    selectedSize
-  ]);
+  const done = useMemo(() => {
+    if (queue === null || currentIndex === null) {
+      return false;
+    }
+    return currentIndex >= queue.length;
+  }, [currentIndex, queue]);
 
-  const decrementSize = useCallback(() => setSize(p => Math.max(p - 1, 0)), []);
+  const current = useMemo(() => {
+    if (queue && currentIndex !== null && done !== true) {
+      return queue[currentIndex];
+    }
+    return null;
+  }, [currentIndex, done, queue]);
 
-  const start = useCallback(() => {
-    const shuffled = shuffleArray(selected);
-    const queue = shuffled.slice(0, size);
-    setQueue(queue);
-    setCurrent(queue[0]);
-    setPlaying(queue[0]);
-  }, [selected, setPlaying, size]);
+  useEffect(() => {
+    store.set(SELECTED_SIZE_STORAGE_KEY, size);
+  }, [size]);
 
   const answer = useMemo(() => {
     if (current === null || birds === null) {
@@ -40,11 +51,69 @@ export const QuizStore = ({ selected, birds, setPlaying }: Props) => {
     return bird.name;
   }, [birds, current]);
 
+  const progress = useMemo((): { current: number; total: number } | null => {
+    if (queue === null || currentIndex === null) {
+      return null;
+    }
+    return {
+      current: currentIndex + 1,
+      total: queue.length
+    };
+  }, [currentIndex, queue]);
+
+  useLayoutEffect(() => {
+    if (done) {
+      setPlaying(null);
+    }
+  }, [done, setPlaying]);
+
+  useLayoutEffect(() => {
+    if (current !== null) {
+      setPlaying(current);
+    }
+  }, [current, setPlaying]);
+
+  const incrementSize = useCallback(() => setSize(p => Math.min(p + 1, selectedSize)), [
+    selectedSize
+  ]);
+
+  const decrementSize = useCallback(() => setSize(p => Math.max(p - 1, 0)), []);
+
+  const start = useCallback(() => {
+    if (size === 0) {
+      return;
+    }
+    const shuffled = shuffleArray(selected);
+    const queue = shuffled.slice(0, size);
+    setQueue(queue);
+    setCurrentIndex(0);
+    setPlaying(queue[0]);
+  }, [selected, setPlaying, size]);
+
+  const playCurrent = useCallback(() => {
+    if (current !== null) {
+      setPlaying(current);
+    }
+  }, [current, setPlaying]);
+
+  const playNext = useCallback(() => {
+    setCurrentIndex(p => {
+      if (p !== null) {
+        return p + 1;
+      }
+      return p;
+    });
+  }, []);
+
   return useShallowMemo({
+    done,
     size,
     setSize,
+    progress,
+    playCurrent,
     incrementSize,
     decrementSize,
+    playNext,
     start,
     queue,
     current,

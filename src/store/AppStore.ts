@@ -5,6 +5,7 @@ import store from 'store2';
 import { QuizStore } from './QuizStore';
 
 const SELECTED_STORAGE_KEY = 'chandwazo_selected-v1';
+const HAS_SELECTED_STORE = store.has(SELECTED_STORAGE_KEY);
 
 export interface BirdsFiles {
   [key: string]: string;
@@ -23,8 +24,6 @@ interface Player {
   id: string;
   howl: Howl;
 }
-
-const HAS_SELECTED_STORE = store.has(SELECTED_STORAGE_KEY);
 
 export const AppStore = () => {
   const [birds, setBirds] = useState<null | BirdsList>(null);
@@ -139,12 +138,17 @@ export const AppStore = () => {
     });
   }, []);
 
+  const stopPlaying = useCallback(() => {
+    setPlaying(null);
+  }, []);
+
   return useShallowMemo({
     birds,
     setPage,
     selected,
     page,
     togglePlaying,
+    stopPlaying,
     playing,
     playingIsLoading,
     toggleSongSelected,

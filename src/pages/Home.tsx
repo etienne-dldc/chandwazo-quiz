@@ -1,9 +1,9 @@
 import React from 'react';
 import { Layout } from 'components/Layout';
 import { ReactComponent as Award } from 'icons/award.svg';
-import { ReactComponent as Coffee } from 'icons/coffee.svg';
+// import { ReactComponent as Coffee } from 'icons/coffee.svg';
 import { ReactComponent as Book } from 'icons/book.svg';
-import { ReactComponent as Settings } from 'icons/settings.svg';
+// import { ReactComponent as Settings } from 'icons/settings.svg';
 import { useSelector } from 'select';
 
 export const Home: React.FC = () => {
@@ -22,7 +22,7 @@ export const Home: React.FC = () => {
         <Award />
         <span>Quiz</span>
       </button>
-      <button
+      {/* <button
         type="button"
         className="home--nav-btn"
         style={{
@@ -31,7 +31,7 @@ export const Home: React.FC = () => {
       >
         <Coffee />
         <span>Entraînement</span>
-      </button>
+      </button> */}
       <button
         type="button"
         className="home--nav-btn"
@@ -43,7 +43,7 @@ export const Home: React.FC = () => {
         <Book />
         <span>Liste des chants</span>
       </button>
-      <button
+      {/* <button
         type="button"
         className="home--nav-btn"
         style={{
@@ -52,7 +52,7 @@ export const Home: React.FC = () => {
       >
         <Settings />
         <span>Paramètres</span>
-      </button>
+      </button> */}
     </Layout>
   );
 };
