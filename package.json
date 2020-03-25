@@ -31,7 +31,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "deploy": "yarn build && tar -cvf ./deploy.tar --exclude='*.map' ./captain-definition ./build/* && npx caprover deploy -t ./deploy.tar"
   },
   "eslintConfig": {
     "extends": "react-app"
