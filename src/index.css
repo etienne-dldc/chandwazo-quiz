@@ -309,6 +309,7 @@ body {
   align-items: center;
   padding: 0.3rem;
   color: #90a4ae;
+  flex-shrink: 0;
 }
 .list--item.selected {
   color: #263238;
@@ -351,6 +352,11 @@ body {
 }
 .list--play.playing {
   opacity: 1;
+}
+@media only screen and (max-width: 600px) {
+  .list--play {
+    opacity: 1;
+  }
 }
 
 .list--item button svg {
