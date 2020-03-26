@@ -53,6 +53,11 @@ export const Home: React.FC = () => {
         <Settings />
         <span>Paramètres</span>
       </button> */}
+      <p className="home--info">
+        <a href="https://twitter.com/Etienne_dot_js">@EtienneDotJs</a>
+        {' - '}
+        <a href="https://github.com/etienne-dldc/chandwazo-quiz">Github</a>
+      </p>
     </Layout>
   );
 };

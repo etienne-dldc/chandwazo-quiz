@@ -118,6 +118,16 @@ body {
   bottom: 0.3rem;
 }
 
+.home--info {
+  font-size: 0.8rem;
+  margin: 0;
+  margin-top: 1.5rem;
+}
+
+.home--info a {
+  text-decoration: none;
+}
+
 /* List */
 
 .list--controls {
