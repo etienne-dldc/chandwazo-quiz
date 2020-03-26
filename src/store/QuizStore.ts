@@ -3,8 +3,8 @@ import { useState, useCallback, useMemo, useEffect, useLayoutEffect } from 'demo
 import { shuffleArray } from 'utils/shuffleArray';
 import { BirdsList, Page } from './AppStore';
 import store from 'store2';
+import { SELECTED_SIZE_STORAGE_KEY } from 'constants/index';
 
-const SELECTED_SIZE_STORAGE_KEY = 'chandwazo_selected_size-v1';
 const HAS_SELECTED_SIZE_STORAGE = store.has(SELECTED_SIZE_STORAGE_KEY);
 
 interface Props {

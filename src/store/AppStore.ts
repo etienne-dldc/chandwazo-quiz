@@ -3,8 +3,8 @@ import { useShallowMemo } from 'hooks/useShallowMemo';
 import { Howl } from 'howler';
 import store from 'store2';
 import { QuizStore } from './QuizStore';
+import { SELECTED_STORAGE_KEY } from 'constants/index';
 
-const SELECTED_STORAGE_KEY = 'chandwazo_selected-v1';
 const HAS_SELECTED_STORE = store.has(SELECTED_STORAGE_KEY);
 
 export interface BirdsFiles {
@@ -78,7 +78,10 @@ export const AppStore = () => {
       return;
     }
     const howl = new Howl({
-      src: [`http://birds.etiennedeladonchamps.fr/${playing}.webm`]
+      src: [
+        `http://birds.etiennedeladonchamps.fr/${playing}.webm`,
+        `http://birds.etiennedeladonchamps.fr/${playing}.mp3`
+      ]
     });
     setLoadedSong(prev => {
       if (prev[playing] === undefined) {
@@ -98,6 +101,16 @@ export const AppStore = () => {
       });
     });
     howl.play();
+    console.log(howl);
+    howl.once('loaderror', (id, error) => {
+      console.log({ id, error });
+    });
+    howl.once('playerror', (id, error) => {
+      console.log({ id, error });
+    });
+    howl.once('stop', () => {
+      console.log('stop');
+    });
     howl.on('end', () => {
       setPlaying(null);
     });
