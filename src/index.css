@@ -583,6 +583,7 @@ body {
   transition-duration: 0.3s;
   padding: 0.5rem 0;
   border-radius: 10rem;
+  flex-wrap: wrap;
 }
 
 .player--success {
