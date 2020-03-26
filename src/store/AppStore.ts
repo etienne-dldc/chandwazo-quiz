@@ -101,16 +101,6 @@ export const AppStore = () => {
       });
     });
     howl.play();
-    console.log(howl);
-    howl.once('loaderror', (id, error) => {
-      console.log({ id, error });
-    });
-    howl.once('playerror', (id, error) => {
-      console.log({ id, error });
-    });
-    howl.once('stop', () => {
-      console.log('stop');
-    });
     howl.on('end', () => {
       setPlaying(null);
     });
