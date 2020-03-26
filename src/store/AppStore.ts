@@ -40,7 +40,7 @@ export const AppStore = () => {
 
   const playingIsLoading = playing === null ? false : loadedSong[playing] === true ? false : true;
 
-  const quiz = useChildren(createElement(QuizStore, { selected, birds, setPlaying }));
+  const quiz = useChildren(createElement(QuizStore, { selected, birds, setPlaying, setPage }));
 
   useEffect(() => {
     store.set(SELECTED_STORAGE_KEY, selected);

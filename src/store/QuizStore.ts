@@ -1,7 +1,7 @@
 import { useShallowMemo } from 'hooks/useShallowMemo';
 import { useState, useCallback, useMemo, useEffect, useLayoutEffect } from 'democrat';
 import { shuffleArray } from 'utils/shuffleArray';
-import { BirdsList } from './AppStore';
+import { BirdsList, Page } from './AppStore';
 import store from 'store2';
 
 const SELECTED_SIZE_STORAGE_KEY = 'chandwazo_selected_size-v1';
@@ -11,9 +11,10 @@ interface Props {
   selected: Array<string>;
   birds: BirdsList | null;
   setPlaying: (id: string | null) => void;
+  setPage: (page: Page) => void;
 }
 
-export const QuizStore = ({ selected, birds, setPlaying }: Props) => {
+export const QuizStore = ({ selected, birds, setPlaying, setPage }: Props) => {
   const selectedSize = selected.length;
   const [size, setSize] = useState<number>(() => {
     const value: number = HAS_SELECTED_SIZE_STORAGE ? store.get(SELECTED_SIZE_STORAGE_KEY) : 20;
@@ -105,6 +106,12 @@ export const QuizStore = ({ selected, birds, setPlaying }: Props) => {
     });
   }, []);
 
+  const endQuiz = useCallback(() => {
+    setQueue(null);
+    setCurrentIndex(null);
+    setPage('home');
+  }, [setPage]);
+
   return useShallowMemo({
     done,
     size,
@@ -117,6 +124,7 @@ export const QuizStore = ({ selected, birds, setPlaying }: Props) => {
     start,
     queue,
     current,
-    answer
+    answer,
+    endQuiz
   });
 };
