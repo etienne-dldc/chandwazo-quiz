@@ -14,11 +14,11 @@ function toNormArray(str: string): Array<{ raw: string; norm: string }> {
   return str
     .replace(CONVERT_TO_SMALL_WORD, '$1 $2 $3')
     .split(WORD_SPLIT)
-    .map(rawWord => {
+    .map((rawWord) => {
       const norm = rawWord
         .replace(APOSTROPH_START, '')
         .split('')
-        .map(letter => {
+        .map((letter) => {
           const index = REPLACE_LETTERS.indexOf(letter);
           if (index >= 0) {
             return BY_LETTERS[index];
@@ -34,15 +34,15 @@ function toNormArray(str: string): Array<{ raw: string; norm: string }> {
       }
       return {
         raw: rawWord,
-        norm
+        norm,
       };
     });
 }
 
 export function extractMainWords(input: string): Array<string> {
   return toNormArray(input)
-    .map(v => v.norm)
-    .filter(w => SKIPPED_WORDS.includes(w) === false);
+    .map((v) => v.norm)
+    .filter((w) => SKIPPED_WORDS.includes(w) === false);
 }
 
 // return an array of response found (string) or null
@@ -51,11 +51,11 @@ export function checkAnswer(anwser: string, input: string): Array<string | null>
   const inputWords = extractMainWords(input);
 
   const result = anwserWords
-    .map(word => {
+    .map((word) => {
       if (SKIPPED_WORDS.includes(word.norm)) {
         return word;
       }
-      const wordMatch = inputWords.some(inputWord => {
+      const wordMatch = inputWords.some((inputWord) => {
         const score = compareTwoStrings(word.norm, inputWord);
         return score > 0.9;
       });
@@ -67,7 +67,7 @@ export function checkAnswer(anwser: string, input: string): Array<string | null>
       }
       const prev = i > 0 ? arr[i - 1] : null;
       const next = i < arr.length ? arr[i + 1] : null;
-      return prev !== null || next !== null ? v.raw : null;
+      return prev !== null && next !== null ? v.raw : null;
     });
   return result;
 }

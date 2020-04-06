@@ -12,13 +12,14 @@ import { ReactComponent as SkipForward } from 'icons/skip-forward.svg';
 
 export const QuizPlayer = React.memo(() => {
   const [input, setInput] = React.useState('');
-  const answer = useSelectorOrThrow(s => s.quiz.answer);
-  const progress = useSelectorOrThrow(s => s.quiz.progress);
-  const playing = useSelector(s => s.playing);
-  const playingIsLoading = useSelector(s => s.playingIsLoading);
-  const stopPlaying = useSelector(s => s.stopPlaying);
-  const playCurrent = useSelector(s => s.quiz.playCurrent);
-  const playNextInternal = useSelector(s => s.quiz.playNext);
+  const inputRef = React.useRef<HTMLInputElement>(null);
+  const answer = useSelectorOrThrow((s) => s.quiz.answer);
+  const progress = useSelectorOrThrow((s) => s.quiz.progress);
+  const playing = useSelector((s) => s.playing);
+  const playingIsLoading = useSelector((s) => s.playingIsLoading);
+  const stopPlaying = useSelector((s) => s.stopPlaying);
+  const playCurrent = useSelector((s) => s.quiz.playCurrent);
+  const playNextInternal = useSelector((s) => s.quiz.playNext);
 
   const playNext = React.useCallback(() => {
     playNextInternal();
@@ -26,9 +27,15 @@ export const QuizPlayer = React.memo(() => {
   }, [playNextInternal]);
 
   const result = checkAnswer(answer, input);
-  const foundSome = result.some(v => v !== null);
-  const foundAll = result.every(v => v !== null);
+  const foundSome = result.some((v) => v !== null);
+  const foundAll = result.every((v) => v !== null);
   const isPaused = playing === null;
+  const resultSingleNull = result.reduce<Array<string | null>>((acc, item) => {
+    if (acc.length === 0 || item !== null || acc[acc.length - 1] !== null) {
+      acc.push(item);
+    }
+    return acc;
+  }, []);
 
   return (
     <Layout noTitle>
@@ -59,8 +66,11 @@ export const QuizPlayer = React.memo(() => {
               if (foundSome) {
                 setInput(answer);
               } else {
-                // only set the forst part
-                setInput(extractMainWords(answer)[0]);
+                // only set the first part
+                setInput(extractMainWords(answer)[0] + ' ');
+              }
+              if (inputRef.current) {
+                inputRef.current.focus();
               }
             }}
             className="player--help"
@@ -77,7 +87,7 @@ export const QuizPlayer = React.memo(() => {
           </p>
         ) : foundSome ? (
           <p className="player--text player--partial">
-            {result.map((v, i) =>
+            {resultSingleNull.map((v, i) =>
               v === null ? (
                 <span key={i} className="player--box">
                   ?
@@ -95,10 +105,11 @@ export const QuizPlayer = React.memo(() => {
       </div>
       <div className="player--answer">
         <input
+          ref={inputRef}
           value={input}
           placeholder="votre réponse"
-          onChange={e => setInput(e.target.value)}
-          onKeyDown={e => {
+          onChange={(e) => setInput(e.target.value)}
+          onKeyDown={(e) => {
             if (e.key === 'Enter' && foundAll) {
               playNext();
             }
