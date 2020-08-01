@@ -1,15 +1,13 @@
 import React from 'react';
-import { supportReactHooks, render, createElement } from 'democrat';
+import { createElement, createStore } from 'democrat';
 import { AppStore } from './AppStore';
 import { Store } from 'react-electors';
 import diff from 'jest-diff';
 
-supportReactHooks(React);
-
 export type AppState = ReturnType<typeof AppStore>;
 export type AppStore = Store<AppState>;
 
-const store: AppStore = render(createElement(AppStore));
+const store: AppStore = createStore(createElement(AppStore), { ReactInstance: React });
 
 (window as any).store = store;
 
@@ -22,8 +20,8 @@ store.subscribe(() => {
     contextLines: 2,
     includeChangeCounts: false,
     omitAnnotationLines: true,
-    aColor: v => `$$${v}$$`, // green
-    bColor: v => `##${v}##` // red
+    aColor: (v) => `$$${v}$$`, // green
+    bColor: (v) => `##${v}##`, // red
   });
   console.groupCollapsed(`State Update`);
   logColors(diffResult);
