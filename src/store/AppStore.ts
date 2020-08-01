@@ -48,20 +48,20 @@ export const AppStore = () => {
 
   useEffect(() => {
     fetch('/birds.json')
-      .then(res => res.json())
+      .then((res) => res.json())
       .then((data: BirdsFiles) => {
         // Object.values<string>(data).forEach(name => checkAnswer(name, ''));
         const list: BirdsList = Object.keys(data)
           .map(
             (k): BirdsListItem => ({
               id: k,
-              name: data[k]
+              name: data[k],
             })
           )
           .sort((l, r) => l.name.localeCompare(r.name));
         setBirds(list);
         if (HAS_SELECTED_STORE === false) {
-          setSelected(list.map(v => v.id));
+          setSelected(list.map((v) => v.id));
         }
       });
   }, []);
@@ -79,24 +79,24 @@ export const AppStore = () => {
     }
     const howl = new Howl({
       src: [
-        `http://birds.etiennedeladonchamps.fr/${playing}.webm`,
-        `http://birds.etiennedeladonchamps.fr/${playing}.mp3`
-      ]
+        `https://birds.etiennedeladonchamps.fr/${playing}.webm`,
+        `https://birds.etiennedeladonchamps.fr/${playing}.mp3`,
+      ],
     });
-    setLoadedSong(prev => {
+    setLoadedSong((prev) => {
       if (prev[playing] === undefined) {
         return {
           ...prev,
-          [playing]: false
+          [playing]: false,
         };
       }
       return prev;
     });
     howl.once('play', () => {
-      setLoadedSong(prev => {
+      setLoadedSong((prev) => {
         return {
           ...prev,
-          [playing]: true
+          [playing]: true,
         };
       });
     });
@@ -106,18 +106,18 @@ export const AppStore = () => {
     });
     playerRef.current = {
       id: playing,
-      howl
+      howl,
     };
   }, [playing]);
 
   const selectUnselectAll = useCallback((ids: Array<string>) => {
-    setSelected(prev => {
-      const allSelected = ids.every(id => prev.includes(id));
+    setSelected((prev) => {
+      const allSelected = ids.every((id) => prev.includes(id));
       if (allSelected) {
-        return prev.filter(id => ids.includes(id) === false);
+        return prev.filter((id) => ids.includes(id) === false);
       }
       const copy = [...prev];
-      ids.forEach(id => {
+      ids.forEach((id) => {
         if (!copy.includes(id)) {
           copy.push(id);
         }
@@ -127,16 +127,16 @@ export const AppStore = () => {
   }, []);
 
   const toggleSongSelected = useCallback((songId: string) => {
-    setSelected(prev => {
+    setSelected((prev) => {
       if (prev.includes(songId)) {
-        return prev.filter(v => v !== songId);
+        return prev.filter((v) => v !== songId);
       }
       return [...prev, songId];
     });
   }, []);
 
   const togglePlaying = useCallback((songId: string) => {
-    setPlaying(prev => {
+    setPlaying((prev) => {
       return prev === songId ? null : songId;
     });
   }, []);
@@ -156,6 +156,6 @@ export const AppStore = () => {
     playingIsLoading,
     toggleSongSelected,
     selectUnselectAll,
-    quiz
+    quiz,
   });
 };
