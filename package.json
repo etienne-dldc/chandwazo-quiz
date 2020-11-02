@@ -28,11 +28,12 @@
     "typescript": "~4.0.5"
   },
   "scripts": {
+    "preinstall": "npx only-allow pnpm",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "typecheck": "tsc --noEmit",
-    "deploy": "yarn build && tar -cvf ./deploy.tar --exclude='*.map' ./captain-definition ./build/* && npx caprover deploy -t ./deploy.tar"
+    "deploy": "pnpm run build && tar -cvf ./deploy.tar --exclude='*.map' ./captain-definition ./build/* && npx caprover deploy -t ./deploy.tar"
   },
   "eslintConfig": {
     "extends": "react-app"
