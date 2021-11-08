@@ -1,13 +1,13 @@
-import React from 'react';
-import { Layout } from 'components/Layout';
-import { ReactComponent as Award } from 'icons/award.svg';
+import React from "react";
+import { Layout } from "components/Layout";
+import { ReactComponent as Award } from "icons/award.svg";
 // import { ReactComponent as Coffee } from 'icons/coffee.svg';
-import { ReactComponent as Book } from 'icons/book.svg';
+import { ReactComponent as Book } from "icons/book.svg";
 // import { ReactComponent as Settings } from 'icons/settings.svg';
-import { useSelector } from 'select';
+import { useSelector } from "select";
 
 export const Home: React.FC = () => {
-  const setPage = useSelector(s => s.setPage);
+  const setPage = useSelector((s) => s.setPage);
 
   return (
     <Layout>
@@ -15,9 +15,9 @@ export const Home: React.FC = () => {
         type="button"
         className="home--nav-btn"
         style={{
-          backgroundImage: `linear-gradient(315deg, #f7b42c 0%, #fc575e 74%)`
+          backgroundImage: `linear-gradient(315deg, #f7b42c 0%, #fc575e 74%)`,
         }}
-        onClick={() => setPage('quiz')}
+        onClick={() => setPage("quiz")}
       >
         <Award />
         <span>Quiz</span>
@@ -36,9 +36,9 @@ export const Home: React.FC = () => {
         type="button"
         className="home--nav-btn"
         style={{
-          backgroundImage: `linear-gradient(45deg, #2a2a72 0%, #009ffd 74%)`
+          backgroundImage: `linear-gradient(45deg, #2a2a72 0%, #009ffd 74%)`,
         }}
-        onClick={() => setPage('list')}
+        onClick={() => setPage("list")}
       >
         <Book />
         <span>Liste des chants</span>
@@ -54,8 +54,8 @@ export const Home: React.FC = () => {
         <span>Paramètres</span>
       </button> */}
       <p className="home--info">
-        <a href="https://twitter.com/Etienne_dot_js">@EtienneDotJs</a>
-        {' - '}
+        <a href="https://dldc.dev/twitter">@EtienneTech</a>
+        {" - "}
         <a href="https://github.com/etienne-dldc/chandwazo-quiz">Github</a>
       </p>
     </Layout>

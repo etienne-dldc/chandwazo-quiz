@@ -1,13 +1,15 @@
-import React from 'react';
-import { createElement, createStore } from 'democrat';
-import { AppStore } from './AppStore';
-import { Store } from 'react-electors';
-import diff from 'jest-diff';
+import React from "react";
+import { createElement, createStore } from "democrat";
+import { AppStore } from "./AppStore";
+import { Store } from "react-electors";
+import { diff } from "jest-diff";
 
 export type AppState = ReturnType<typeof AppStore>;
 export type AppStore = Store<AppState>;
 
-const store: AppStore = createStore(createElement(AppStore), { ReactInstance: React });
+const store: AppStore = createStore(createElement(AppStore), {
+  ReactInstance: React,
+});
 
 (window as any).store = store;
 
@@ -34,8 +36,8 @@ function logColors(content: string | null) {
   if (!content) {
     return null;
   }
-  const letters = content.split('');
-  let result = '';
+  const letters = content.split("");
+  let result = "";
   let isRed = false;
   let isGreen = false;
   const styles: Array<string> = [];
@@ -45,29 +47,29 @@ function logColors(content: string | null) {
       result += letter;
     } else {
       const nextTwo = letters[0] + letters[1];
-      if (nextTwo === '$$') {
+      if (nextTwo === "$$") {
         letters.shift();
         letters.shift();
         if (isRed) {
           isRed = false;
-          styles.push('');
-          result += '%c';
+          styles.push("");
+          result += "%c";
         } else {
           isRed = true;
-          styles.push('color: red');
-          result += '%c';
+          styles.push("color: red");
+          result += "%c";
         }
-      } else if (nextTwo === '##') {
+      } else if (nextTwo === "##") {
         letters.shift();
         letters.shift();
         if (isGreen) {
           isGreen = false;
-          styles.push('');
-          result += '%c';
+          styles.push("");
+          result += "%c";
         } else {
           isGreen = true;
-          styles.push('color: green');
-          result += '%c';
+          styles.push("color: green");
+          result += "%c";
         }
       } else {
         const next = letters.shift();
