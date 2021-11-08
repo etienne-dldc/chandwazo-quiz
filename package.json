@@ -33,7 +33,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "typecheck": "tsc --noEmit",
-    "deploy": "pnpm run build && tar -cvf ./deploy.tar --exclude='*.map' ./captain-definition ./build/* && npx caprover deploy --default -t ./deploy.tar"
+    "deploy": "yarn run build && tar -cvf ./deploy.tar --exclude='*.map' ./captain-definition ./build/* && npx caprover deploy --default -t ./deploy.tar"
   },
   "eslintConfig": {
     "extends": "react-app"
